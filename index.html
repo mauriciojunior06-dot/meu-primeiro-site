@@ -1,11 +1,250 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Galeria de Atividades Infantis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .descricao {
+            text-align: center;
+            color: #34495e;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .galeria {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .cartao-atividade {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 3px solid #fff;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .cartao-atividade:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2);
+            border-color: #ffd700;
+            z-index: 10;
+        }
+
+        .cartao-atividade img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .cartao-atividade:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Estilo para imagens placeholder */
+        .cartao-atividade img[src=""] {
+            opacity: 0.3;
+            background: linear-gradient(45deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .numero-atividade {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #2c3e50;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 5;
+        }
+
+        .sobreposicao {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            text-align: center;
+            font-size: 0.9em;
+            z-index: 5;
+        }
+
+        .cartao-atividade:hover .sobreposicao {
+            transform: translateY(0);
+        }
+
+        .info-extra {
+            text-align: center;
+            margin-top: 40px;
+            color: #34495e;
+            font-size: 1.1em;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contador {
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1200px) {
+            .galeria {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .galeria {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .galeria {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .galeria {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    eu não sei oque estou fazendo
+    <h1>🌈 Galeria de Atividades Infantis</h1>
+    <p class="descricao">🎨 50 espaços para as mais divertidas atividades! 🎮</p>
+
+    <div class="galeria" id="galeria">
+        <!-- Os 50 cartões de atividades serão inseridos via JavaScript -->
+    </div>
+
+    <div class="info-extra">
+        <p>✨ Adicione suas imagens favoritas nos links abaixo! ✨</p>
+        <p class="contador" id="contador">50 atividades disponíveis</p>
+    </div>
+
+    <script>
+        // Array com sugestões de atividades infantis e links de exemplo
+        const atividades = [
+            { nome: "Pintura com os dedos", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Hora da leitura", link: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=300&fit=crop" },
+            { nome: "Brincando com massinha", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Quebra-cabeça", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Desenho livre", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Blocos de montar", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Jogos de tabuleiro", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Teatro de fantoches", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Música e dança", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Jardinagem", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Experiências científicas", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Caça ao tesouro", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Origami", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Pintura em tela", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Boliche caseiro", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Culinária infantil", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Circo em casa", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Acampamento indoor", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Piquenique", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" },
+            { nome: "Observação de nuvens", link: "https://images.unsplash.com/photo-1587653261192-87bdd8c8946b?w=300&h=300&fit=crop" }
+        ];
+
+        const galeria = document.getElementById('galeria');
+
+        // Criar 50 cartões de atividade
+        for (let i = 1; i <= 50; i++) {
+            const cartao = document.createElement('div');
+            cartao.className = 'cartao-atividade';
+
+            // Selecionar atividade aleatória ou usar placeholder
+            const atividadeIndex = (i - 1) % atividades.length;
+            const atividade = atividades[atividadeIndex];
+            
+            // Usar link da atividade ou string vazia para os demais
+            const imagemLink = i <= atividades.length ? atividade.link : '';
+
+            cartao.innerHTML = `
+                <span class="numero-atividade">#${i}</span>
+                <img src="${imagemLink}" 
+                     alt="Atividade ${i}: ${atividade.nome || 'Espaço para nova atividade'}"
+                     onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'300\\' height=\\'300\\' viewBox=\\'0 0 300 300\\'%3E%3Crect width=\\'300\\' height=\\'300\\' fill=\\'%23f0f0f0\\'/%3E%3Ctext x=\\'50%25\\' y=\\'50%25\\' text-anchor=\\'middle\\' dy=\\'.3em\\' fill=\\'%23999\\' font-family=\\'Arial\\' font-size=\\'24\\'%3E🖼️%3C/text%3E%3C/svg%3E'">
+                <div class="sobreposicao">
+                    ${i <= atividades.length ? atividade.nome : 'Adicione uma imagem'}
+                </div>
+            `;
+
+            galeria.appendChild(cartao);
+        }
+
+        // Atualizar contador
+        const contador = document.getElementById('contador');
+        contador.textContent = '50 atividades disponíveis';
+    </script>
 </body>
 </html>
